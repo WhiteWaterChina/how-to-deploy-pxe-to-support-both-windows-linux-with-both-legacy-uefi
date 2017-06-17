@@ -1,0 +1,16 @@
+default vesamenu.c32
+#timeout 600
+
+#display boot.msg
+
+prompt 0
+
+label linux
+	menu label > linux
+	kernel vesamenu.c32
+	append ../../pxelinux.cfg/default
+
+label windows
+        menu label > windows
+        kernel ipxe.lkrn
+        append dhcp && tftp://10.0.0.1/ipxe.cfg/ipxe-uefi.menu

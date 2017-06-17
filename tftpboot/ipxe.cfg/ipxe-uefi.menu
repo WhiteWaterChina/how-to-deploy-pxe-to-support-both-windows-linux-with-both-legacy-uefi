@@ -1,0 +1,60 @@
+#!ipxe
+	
+#	set menu-timeout=200
+#	set menu-default windows2012R2
+#	set next-server 100.2.36.3
+
+:start
+	menu UEFI PXE Boot Menu    Author: Lester    History: 2017-2-27
+	
+	item --gap --		-------- Install Menu --------
+	echo 
+	
+	item linux			> linux installation
+	item windows 		> windows installation
+	item ks				> kickstart (only)
+	item test			> test
+	item Tools			> UEFI tools
+	
+	item --gap --		------------------------------
+	
+	item --key c config	------ Advanced Options -------
+	
+	item shell			Drop to iPXE shell
+	item reboot			Reboot Server
+	item --key x exit	Exit iPXE and continue BIOS boot
+#	choose --timeout ${menu-timeout} --default ${menu-default} selected
+	choose selected
+	goto ${selected}
+	
+:shell
+	echo Type 'exit' to get back to the menu
+	shell
+	goto start
+
+:reboot
+	reboot
+
+:exit 
+	exit
+	
+:config
+	config
+	goto start
+
+:linux
+        chain /ipxe.cfg/linux.cfg
+# 	dhcp
+#        set netX/next-server 10.0.0.1
+#        chain tftp://10.0.0.1/efilinux/syslinux.efi
+#        boot
+
+:windows
+	 set netX/next-server 10.0.0.3
+         set netX/filename boot\x64\wdsmgfw.efi
+         chain tftp://10.0.0.3/boot\x64\wdsmgfw.efi
+:ks
+	chain /ipxe.cfg/ks.cfg
+
+:test
+	chain tftp://100.2.36.4/Boot\x64\bootmgfw.efi

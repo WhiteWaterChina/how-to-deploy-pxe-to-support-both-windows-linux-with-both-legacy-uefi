@@ -1,0 +1,12 @@
+default vesamenu.c32
+timeout 0
+
+
+label linux
+	menu label > linux
+	kernel vesamenu.c32
+	append images/linux.cfg
+
+label windows
+	menu label > windows
+	kernel ipxe.lkrn

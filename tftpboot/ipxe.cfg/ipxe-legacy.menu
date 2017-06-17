@@ -1,0 +1,47 @@
+#!ipxe
+	
+	set menu-timeout=10
+	set menu-default linux installation
+#	set next-server 100.2.36.3
+
+:start
+	menu LEGACY PXE Boot Menu    Author: Lester    History: 2017-2-27
+	
+	item --gap --		-------- Install Menu --------
+	echo 
+	
+#	item linux			> linux installation
+	item windows 		> windows installation
+#	item ks				> kickstart (only)
+	
+	item --gap --		------------------------------
+	
+	item --key c config	------ Advanced Options -------
+	
+	item reboot			Reboot Server
+#	choose --timeout ${menu-timeout} --default ${menu-default} selected
+	choose selected
+	goto ${selected}
+	
+:shell
+	echo Type 'exit' to get back to the menu
+	shell
+	goto start
+
+:reboot
+	reboot
+
+:exit 
+	exit
+	
+:config
+	config
+	goto start
+#:linux
+#        chain tftp://10.0.0.1/pxelinux.0
+#        boot
+
+:windows
+         set netX/next-server 10.0.0.3
+         set netX/filename boot\x64\wdsnbp.com
+         chain tftp://10.0.0.3/boot\x64\wdsnbp.com
