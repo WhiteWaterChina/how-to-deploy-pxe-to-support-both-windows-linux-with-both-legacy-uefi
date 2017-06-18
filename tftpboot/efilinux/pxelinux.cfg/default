@@ -10,7 +10,7 @@ label linux
 	kernel vesamenu.c32
 	append ../../pxelinux.cfg/default
 
-label windows
-        menu label > windows
-        kernel ipxe.lkrn
-        append dhcp && tftp://10.0.0.1/ipxe.cfg/ipxe-uefi.menu
+#label windows
+#        menu label > windows
+#        kernel ipxe.lkrn
+#        append dhcp && tftp://10.0.0.1/ipxe.cfg/ipxe-uefi.menu
